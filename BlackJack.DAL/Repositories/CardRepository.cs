@@ -14,12 +14,13 @@ namespace BlackJack.DAL.Repositories
 
         public CardRepository(BlackJackContext database)
         {
-            this._database = database;
+            _database = database;
         }
 
         public void Create(Card item)
         {
             _database.Cards.Add(item);
+            _database.SaveChanges();
         }
 
         public void Delete(int id)
@@ -28,6 +29,7 @@ namespace BlackJack.DAL.Repositories
             if (item != null)
             {
                 _database.Cards.Remove(item);
+                _database.SaveChanges();
             }
         }
 
@@ -49,6 +51,7 @@ namespace BlackJack.DAL.Repositories
         public void Update(Card item)
         {
             _database.Entry(item).State = EntityState.Modified;
+            _database.SaveChanges();
         }
     }
 }
