@@ -7,17 +7,15 @@ namespace BlackJack.DAL.EF
     {
         public DbSet<Game> Games { get; set; }
         public DbSet<Player> Players { get; set; }
-        public DbSet<Round> Rounds { get; set; }
-        public DbSet<Box> Boxes { get; set; }
         public DbSet<Card> Cards { get; set; }
+        public DbSet<Round> Rounds { get; set; }
+        public DbSet<RoundPlayer> RoundPlayers { get; set; }
+        public DbSet<RoundPlayerCard> RoundPlayerCards { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
         public BlackJackContext(string connectionString) : base(connectionString)
         {
 
         }
+
     }
 }

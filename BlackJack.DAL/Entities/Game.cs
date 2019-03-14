@@ -10,13 +10,10 @@ namespace BlackJack.DAL.Entities
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public byte CountPlayers { get; set; }
         [Required]
-        public DateTime Date { get; set; }
-        [Required]
+        public DateTime DateStart { get; set; }
+        public DateTime DateEnd { get; set; }
 
-        public ICollection<Player> Players { get; set; }
         public ICollection<Round> Rounds { get; set; }
-        public int PlayerId { get; set; }
     }
 }

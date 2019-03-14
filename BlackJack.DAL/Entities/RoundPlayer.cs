@@ -3,15 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BlackJack.DAL.Entities
 {
-    public class Box
+    public class RoundPlayer
     {
         public int Id { get; set; }
         [Required]
-        public double Bet { get; set; }
-        public byte Score { get; set; }
-        public byte Sequence { get; set; }
+        public bool IsWin { get; set; }
 
-        public ICollection<Card> Cards { get; set; }
+        public ICollection<RoundPlayerCard> RoundPlayerCards { get; set; }
         public int PlayerId { get; set; }
         public Player Player { get; set; }
         public int RoundId { get; set; }

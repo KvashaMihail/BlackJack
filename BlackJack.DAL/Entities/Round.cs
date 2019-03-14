@@ -9,7 +9,7 @@ namespace BlackJack.DAL.Entities
         [Required]
         public int NumberRound { get; set; }
 
-        public ICollection<Box> Boxes { get; set; }
+        public ICollection<RoundPlayer> RoundPlayers { get; set; }
         public int GameId { get; set; }
         public Game Game { get; set; }
     }

@@ -11,12 +11,5 @@ namespace BlackJack
     class Program
     {
         
-        static Card card = new Card{  Value =10, Suit = 2 };
-        
-        static void Main(string[] args)
-        {
-            EFUnitOfWork eFUnitOfWork = new EFUnitOfWork(@"data source=(localdb)\MSSQLLocalDB;Initial Catalog=userstore;Integrated Security=True;");
-            eFUnitOfWork.Cards.Create(card);
-        }
     }
 }
