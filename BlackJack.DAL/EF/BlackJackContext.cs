@@ -12,10 +12,17 @@ namespace BlackJack.DAL.EF
                 database.Cards.Add(new Card { Value = value, Suit = 0 });
                 database.Cards.Add(new Card { Value = value, Suit = 1 });
                 database.Cards.Add(new Card { Value = value, Suit = 2 });
-                database.Cards.Add(new Card { Value = value, Suit = 3 });
-                database.SaveChanges();
-                base.Seed(database);
+                database.Cards.Add(new Card { Value = value, Suit = 3 });            
             }
+            database.Players.Add(new Player { Name = "Bob", IsNotBot = false });
+            database.Players.Add(new Player { Name = "Kate", IsNotBot = false });
+            database.Players.Add(new Player { Name = "Harry", IsNotBot = false });
+            database.Players.Add(new Player { Name = "Randolph", IsNotBot = false });
+            database.Players.Add(new Player { Name = "William", IsNotBot = false });
+            database.Players.Add(new Player { Name = "Adam", IsNotBot = false });
+            database.Players.Add(new Player { Name = "Olivia", IsNotBot = false });
+            database.SaveChanges();
+            base.Seed(database);
         }
     }
 

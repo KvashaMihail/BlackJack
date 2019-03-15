@@ -20,6 +20,7 @@ namespace BlackJack.DAL.Repositories
         public void Create(RoundPlayerCard item)
         {
             _database.RoundPlayerCards.Add(item);
+            _database.SaveChanges();
         }
 
         public void Delete(int id)
@@ -28,6 +29,7 @@ namespace BlackJack.DAL.Repositories
             if (item != null)
             {
                 _database.RoundPlayerCards.Remove(item);
+                _database.SaveChanges();
             }
         }
 
@@ -49,6 +51,7 @@ namespace BlackJack.DAL.Repositories
         public void Update(RoundPlayerCard item)
         {
             _database.Entry(item).State = EntityState.Modified;
+            _database.SaveChanges();
         }
     }
 }
