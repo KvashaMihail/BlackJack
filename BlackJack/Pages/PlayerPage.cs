@@ -12,22 +12,20 @@ namespace BlackJack.Pages
 {
     class PlayerPage
     {
-        public int IdPlayer { get; set; }
-        private readonly BlackJackContext _database;
+        public Player Player { get; set; }
         private PlayerService _playerService;
 
         public PlayerPage(BlackJackContext database)
         {
-            _database = database;
-            _playerService = new PlayerService(_database);
+            _playerService = new PlayerService(database);
         }
 
         public void StartPage()
         {
             ClearPage();
-            byte userChoise = AskChoisePlayer();
+            byte userChoise = AskChoiseMenuPlayer();
             JoinPlayer(userChoise);
-            IdPlayer = _playerService.Player.Id;
+            Player = _playerService.Player;
         }
 
         private void ClearPage()
@@ -47,7 +45,7 @@ namespace BlackJack.Pages
             return Convert.ToByte(userChoiseString);
         }
 
-        private byte AskChoisePlayer()
+        private byte AskChoiseMenuPlayer()
         {
             if (_playerService.GetIsEmpty())
             {
@@ -68,7 +66,7 @@ namespace BlackJack.Pages
             }
             if (userChoise == 0)
             {
-                CreationWithValidationPlayer();
+                _playerService.Create(GetNameForCreatePlayer());
             }
         }
 
@@ -76,7 +74,7 @@ namespace BlackJack.Pages
         {
             ShowListPlayers();
             Console.WriteLine("Введите имя игрока: ");
-            _playerService.Continue(GetNamePlayer());
+            _playerService.Continue(GetNameForSelectPlayer());
         }
 
         private void ShowListPlayers()
@@ -89,38 +87,35 @@ namespace BlackJack.Pages
             }
         }
 
-        private string GetNamePlayer()
+        private string GetNameForSelectPlayer()
         {
             string namePlayer = Console.ReadLine();
-            if (_playerService.GetIsEmptyPlayer(namePlayer))
+            if (_playerService.GetIsEmpty(namePlayer))
             {
                 Console.WriteLine("Такого игрока нет, введите имя игрока из списка!");
-                return GetNamePlayer();
+                return GetNameForSelectPlayer();
             }
             return namePlayer;
         }
 
-        private void CreationWithValidationPlayer()
+        private string GetNameForCreatePlayer()
         {
             Console.Write("Введите имя игрока: ");
             string namePlayer = Console.ReadLine();
             var regex = new Regex(@"[a-zA-Z][a-zA-Z0-9]*");
             bool isCorrectly = Regex.IsMatch(namePlayer, "^[a-zA-Z][a-zA-Z0-9]*$");
-            bool isEmptyPlayer = _playerService.GetIsEmptyPlayer(namePlayer);
+            bool isEmptyPlayer = _playerService.GetIsEmpty(namePlayer);
             if (!isCorrectly)
             {
                 Console.WriteLine("Только латинские буквы и цифры!");
-                CreationWithValidationPlayer();
+                namePlayer = GetNameForCreatePlayer();
             }
             if (!isEmptyPlayer)
             {
                 Console.WriteLine("Такое имя занято.");
-                CreationWithValidationPlayer();
+                namePlayer = GetNameForCreatePlayer();
             }
-            if (isEmptyPlayer & isCorrectly)
-            {
-                _playerService.Create(namePlayer);
-            }
+            return namePlayer; 
         }
     }
 }

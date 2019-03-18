@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Pages\GamePage.cs" />
     <Compile Include="Pages\PlayerPage.cs" />
+    <Compile Include="Pages\PlayPage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pages\TotalService.cs" />

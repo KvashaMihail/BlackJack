@@ -11,14 +11,12 @@ namespace BlackJack.Services
 {
     public class PlayerService 
     {
-        private readonly BlackJackContext _database;
         private readonly PlayerRepository _playerRepository;
         public Player Player { get; set; }
 
         public PlayerService(BlackJackContext database)
         {
-            _database = database;
-            _playerRepository = new PlayerRepository(_database);
+            _playerRepository = new PlayerRepository(database);
         }
 
         public void Continue(string name)
@@ -42,7 +40,7 @@ namespace BlackJack.Services
             return !_playerRepository.Find(Player => Player.IsNotBot.Equals(true)).Any();
         }
 
-        public bool GetIsEmptyPlayer(string name)
+        public bool GetIsEmpty(string name)
         {            
             return !_playerRepository.Find(Player => Player.Name.Equals(name)).Any();
         }

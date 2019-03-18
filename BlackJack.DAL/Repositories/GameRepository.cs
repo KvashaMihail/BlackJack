@@ -19,7 +19,7 @@ namespace BlackJack.DAL.Repositories
         }
 
         public void Create(Game item)
-        {
+        {          
             _database.Games.Add(item);
             _database.SaveChanges();
         }
@@ -47,6 +47,7 @@ namespace BlackJack.DAL.Repositories
         public IEnumerable<Game> GetAll()
         {
             return _database.Games;
+            //return Find(Game => Game.Rounds.FirstOrDefault().RoundPlayers.Any(player => player.PlayerId == idPlayer));
         }
 
         public void Update(Game item)
