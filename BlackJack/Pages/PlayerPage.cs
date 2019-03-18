@@ -66,7 +66,7 @@ namespace BlackJack.Pages
             }
             if (userChoise == 0)
             {
-                _playerService.Create(GetNameForCreatePlayer());
+                _playerService.Create(CheckIfNameIsAVailable());
             }
         }
 
@@ -98,7 +98,7 @@ namespace BlackJack.Pages
             return namePlayer;
         }
 
-        private string GetNameForCreatePlayer()
+        private string CheckIfNameIsAVailable()
         {
             Console.Write("Введите имя игрока: ");
             string namePlayer = Console.ReadLine();
@@ -108,12 +108,12 @@ namespace BlackJack.Pages
             if (!isCorrectly)
             {
                 Console.WriteLine("Только латинские буквы и цифры!");
-                namePlayer = GetNameForCreatePlayer();
+                namePlayer = CheckIfNameIsAVailable();
             }
             if (!isEmptyPlayer)
             {
                 Console.WriteLine("Такое имя занято.");
-                namePlayer = GetNameForCreatePlayer();
+                namePlayer = CheckIfNameIsAVailable();
             }
             return namePlayer; 
         }

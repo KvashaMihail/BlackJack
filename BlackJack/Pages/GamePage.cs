@@ -14,20 +14,20 @@ namespace BlackJack.Pages
     {
         public byte CountBots { get; set; }
         public Game Game { get; set; }
-        //private readonly BlackJackContext _database;
+        public byte UserChoise { get; set; }
+
         private GameService _gameService;
 
         public GamePage(BlackJackContext database)
         {
-            //_database = database;
             _gameService = new GameService(database);
         }
 
         public void StartPage()
         {
             ClearPage();
-            byte userChoise = AskChoiseMenuGame();
-            AcceptChoise(userChoise);
+            UserChoise = AskChoiseMenuGame();
+            AcceptChoise(UserChoise);
         }
 
         private void ClearPage()

@@ -26,8 +26,7 @@ namespace BlackJack.Pages
             ShowStartMessage();
             _playerPage.StartPage();
             _gamePage.StartPage();
-            Console.Clear();
-            Console.WriteLine("Процесс игры");
+
             Console.WriteLine($"Далее создаем игру: Игрок {_playerPage.Player.Name}; Игра {_gamePage.Game.Name} с {_gamePage.CountBots} ботами.");
 
         }
