@@ -13,6 +13,7 @@ namespace BlackJack.Services
     {
         private readonly BlackJackContext _database;
         private readonly PlayerRepository _playerRepository;
+        public Player Player { get; set; }
 
         public PlayerService(BlackJackContext database)
         {
@@ -20,19 +21,20 @@ namespace BlackJack.Services
             _playerRepository = new PlayerRepository(_database);
         }
 
-        public void Continue()
+        public void Continue(string name)
         {
-            
+            Player = _playerRepository.Find(Player => Player.Name.Equals(name)).ElementAt(0);
         }
         
         public void Create(string name)
         {
             _playerRepository.Create(new Player { Name = name, IsNotBot = true });
+            Player = _playerRepository.Find(Player => Player.Name.Equals(name)).ElementAt(0);
         }
 
-        public void ShowListPlayers()
+        public IEnumerable<Player> ShowListPlayers()
         {
-            
+            return _playerRepository.Find(Player => Player.IsNotBot.Equals(true));
         }
 
         public bool GetIsEmpty()

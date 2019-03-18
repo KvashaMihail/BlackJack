@@ -50,9 +50,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\GamePage.cs" />
+    <Compile Include="Pages\PlayerPage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\TotalService.cs" />
+    <Compile Include="Pages\TotalService.cs" />
     <Compile Include="Services\BotActions.cs" />
     <Compile Include="Services\DealerActions.cs" />
     <Compile Include="Services\GameService.cs" />
