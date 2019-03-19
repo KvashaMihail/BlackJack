@@ -56,11 +56,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pages\TotalService.cs" />
-    <Compile Include="Services\BotActions.cs" />
-    <Compile Include="Services\DealerActions.cs" />
+    <Compile Include="Services\BotRoundService.cs" />
+    <Compile Include="Services\CardService.cs" />
+    <Compile Include="Services\DealerRoundService.cs" />
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\LookGameService.cs" />
-    <Compile Include="Services\PlayerActions.cs" />
+    <Compile Include="Services\PlayerRoundService.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\RoundService.cs" />
   </ItemGroup>

@@ -13,7 +13,7 @@ namespace BlackJack.Pages
         private BlackJackContext _database;
         private PlayerPage _playerPage;
         private GamePage _gamePage;
-
+        private PlayPage _playPage;
         public TotalService()
         {
             _database = new BlackJackContext();
@@ -26,9 +26,11 @@ namespace BlackJack.Pages
             ShowStartMessage();
             _playerPage.StartPage();
             _gamePage.StartPage();
-
-            Console.WriteLine($"Далее создаем игру: Игрок {_playerPage.Player.Name}; Игра {_gamePage.Game.Name} с {_gamePage.CountBots} ботами.");
-
+            if (_gamePage.UserChoice == 0)
+            {
+                _playPage = new PlayPage(_database, _playerPage.Player, _gamePage.Game, _gamePage.CountBots);
+                _playPage.StartPage();
+            }
         }
 
         private void ShowStartMessage()

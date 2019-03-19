@@ -21,6 +21,7 @@ namespace BlackJack.DAL.EF
             database.Players.Add(new Player { Name = "William", IsNotBot = false });
             database.Players.Add(new Player { Name = "Adam", IsNotBot = false });
             database.Players.Add(new Player { Name = "Olivia", IsNotBot = false });
+            database.Players.Add(new Player { Name = "Dealer", IsNotBot = false });
             database.SaveChanges();
             base.Seed(database);
         }

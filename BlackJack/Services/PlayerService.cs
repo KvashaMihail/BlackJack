@@ -45,5 +45,10 @@ namespace BlackJack.Services
             return !_playerRepository.Find(Player => Player.Name.Equals(name)).Any();
         }
 
+        public IEnumerable<Player> GetPlayers(Player player, byte countBots)
+        {
+            IEnumerable<Player> players = _playerRepository.Find(Player => (Player.Id <= countBots) || (Player.Id == player.Id));
+            return players.Reverse();
+        }
     }
 }

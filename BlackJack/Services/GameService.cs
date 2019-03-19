@@ -44,5 +44,6 @@ namespace BlackJack.Services
         {
             return !_gameRepository.Find(Game => Game.Name.Equals(name)).Any();
         }
+
     }
 }

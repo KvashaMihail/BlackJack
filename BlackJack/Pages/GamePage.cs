@@ -14,7 +14,7 @@ namespace BlackJack.Pages
     {
         public byte CountBots { get; set; }
         public Game Game { get; set; }
-        public byte UserChoise { get; set; }
+        public byte UserChoice { get; set; }
 
         private GameService _gameService;
 
@@ -26,8 +26,8 @@ namespace BlackJack.Pages
         public void StartPage()
         {
             ClearPage();
-            UserChoise = AskChoiseMenuGame();
-            AcceptChoise(UserChoise);
+            UserChoice = AskChoiseMenuGame();
+            AcceptChoise(UserChoice);
         }
 
         private void ClearPage()
