@@ -4,21 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.Services
+namespace BlackJack.ViewLayer.Steps
 {
-    public class LookGameService
+    public class GameMenu
     {
-        public void ShowFiveRounds()
+        public GameMenu()
         {
 
         }
 
-        public void Next()
-        {
-
-        }
-
-        public void Previous()
+        public void StartStep()
         {
 
         }

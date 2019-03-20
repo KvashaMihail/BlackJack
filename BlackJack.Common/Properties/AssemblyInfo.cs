@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BlackJack.ViewLayer")]
+[assembly: AssemblyTitle("BlackJack.Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BlackJack.ViewLayer")]
+[assembly: AssemblyProduct("BlackJack.Common")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9dcf8c75-815e-4f79-baad-a635a24fca1c")]
+[assembly: Guid("4e22aed9-1d01-44ae-a7dc-d5f79c671fd7")]
 
 // Version information for an assembly consists of the following four values:
 //

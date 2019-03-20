@@ -14,14 +14,14 @@ namespace BlackJack.DAL.EF
                 database.Cards.Add(new Card { Value = value, Suit = 2 });
                 database.Cards.Add(new Card { Value = value, Suit = 3 });            
             }
-            database.Players.Add(new Player { Name = "Bob", IsNotBot = false });
-            database.Players.Add(new Player { Name = "Kate", IsNotBot = false });
-            database.Players.Add(new Player { Name = "Harry", IsNotBot = false });
-            database.Players.Add(new Player { Name = "Randolph", IsNotBot = false });
-            database.Players.Add(new Player { Name = "William", IsNotBot = false });
-            database.Players.Add(new Player { Name = "Adam", IsNotBot = false });
-            database.Players.Add(new Player { Name = "Olivia", IsNotBot = false });
-            database.Players.Add(new Player { Name = "Dealer", IsNotBot = false });
+            database.Players.Add(new Player { Name = "Bob", IsBot = true });
+            database.Players.Add(new Player { Name = "Kate", IsBot = true });
+            database.Players.Add(new Player { Name = "Harry", IsBot = true });
+            database.Players.Add(new Player { Name = "Randolph", IsBot = true });
+            database.Players.Add(new Player { Name = "William", IsBot = true });
+            database.Players.Add(new Player { Name = "Adam", IsBot = true });
+            database.Players.Add(new Player { Name = "Olivia", IsBot = true });
+            database.Players.Add(new Player { Name = "Dealer", IsBot = true });
             database.SaveChanges();
             base.Seed(database);
         }

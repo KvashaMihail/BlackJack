@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace BlackJack.DAL.Repositories
 {
-    public class PlayerRepository : IRepository<Player>
+    public class PlayerRepository 
     {
         private BlackJackContext _database;
 
@@ -33,9 +33,14 @@ namespace BlackJack.DAL.Repositories
             }
         }
 
-        public IEnumerable<Player> Find(Func<Player, bool> predicate)
+        public List<Player> Find(Func<Player, bool> predicate)
         {
             return _database.Players.Where(predicate).ToList();
+        }
+
+        public Player GetPlayerByName(string name)
+        {
+            return _database.Players.Where(p => p.Name == name).FirstOrDefault();
         }
 
         public Player Get(int id)

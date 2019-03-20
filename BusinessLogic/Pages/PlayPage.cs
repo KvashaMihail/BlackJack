@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.Services;
+using BlackJack.BusinessLogic.Services;
 
-namespace BlackJack.Pages
+namespace BlackJack.BusinessLogic.Pages
 {
     class PlayPage
     {
@@ -17,9 +17,9 @@ namespace BlackJack.Pages
         private IEnumerable<Player> _players;
         private int _countPlayers;
 
-        private Dealer _dealerRoundService;
-        private PlayerRoundService _playerRoundService;
-        private List<BotRoundService> _botsRoundService;
+        private Dealer _dealer;
+        private PlayerPlay _player;
+        private List<Bot> _bots;
 
         private readonly CardService _cardService;
         private readonly RoundService _roundService;
@@ -30,8 +30,7 @@ namespace BlackJack.Pages
             _countPlayers = countBots + 2;
             _roundService = new RoundService(database);
             _playerService = new PlayerService(database);
-            _cardService = new CardService(database);
-            _dealerRoundService = new Dealer();
+            _cardService = new CardService(database);            
             _game = game;
             _players = _playerService.GetPlayers(player, countBots);
         }
@@ -58,14 +57,15 @@ namespace BlackJack.Pages
         private void StartRound(int currentRound)
         {
             _round = new Round { Game = _game, NumberRound = currentRound };
-            _playerRoundService = new PlayerRoundService(_players.ElementAt(0).Id);
-            _botsRoundService = new List<BotRoundService>();
-            foreach (Player bot in _players.Skip(1))
+            _player = new Services.PlayerPlay(_players.ElementAt(0).Id);
+            _bots = new List<Bot>();
+            _dealer = new Dealer();
+            foreach (DAL.Entities.Player player in _players.Skip(1))
             {
-                BotRoundService botRoundService = new BotRoundService(bot.Id);
-                _botsRoundService.Add(botRoundService);
+                Bot bot = new Bot(player.Id);
+                _bots.Add(bot);
             }
-            _dealerRoundService.MixCards();
+            _dealer.MixCards();
             ShowNamePlayersString();
             int numberCard = 1;
             NextCard(numberCard++);
@@ -100,7 +100,7 @@ namespace BlackJack.Pages
         private void ShowNamePlayersString()
         {
             Console.Write("Players:");
-            foreach (Player player in _players)
+            foreach (DAL.Entities.Player player in _players)
             {
                 Console.Write("{0, 15}", player.Name);
             }
@@ -110,83 +110,83 @@ namespace BlackJack.Pages
         private void ShowScores()
         {
             Console.Write("Scores :");
-            Console.Write("{0, 15}", _playerRoundService.Score);
-            foreach (BotRoundService botRoundService in _botsRoundService)
+            Console.Write("{0, 15}", _player.Score);
+            foreach (Bot bot in _bots)
             {
-                Console.Write("{0, 15}", botRoundService.Score);
+                Console.Write("{0, 15}", bot.Score);
             }
-            Console.WriteLine("{0, 15}", _dealerRoundService.Score);
+            Console.WriteLine("{0, 15}", _dealer.Score);
         }
 
         private void NextCard(int numberCard)
         {
             int idCard;
+            int score;
             Console.Write("[Card{0, 2}]", numberCard);
-            if (!_playerRoundService.NotGiveCard)
+            if (!_player.NotGiveCard)
             {
-                idCard = _dealerRoundService.GiveCard();
-                _playerRoundService.GetCard(idCard, numberCard);
-                _playerRoundService.Score += _cardService.GetScoreCard(idCard);
+                idCard = _dealer.GiveCard();
+                score = _cardService.GetScoreCard(idCard);
+                _player.GetCard(idCard, score, numberCard);
                 Console.Write("{0, 15}", _cardService.GetStringCard(idCard));
             }
-            if (_playerRoundService.NotGiveCard)
+            if (_player.NotGiveCard)
             {
-                Console.Write("{0, 15}", "----");
+                Console.Write("{0, 15}", " ");
             }
 
-            foreach (BotRoundService botRoundService in _botsRoundService)
+            foreach (Bot bot in _bots)
             {
-                if (!botRoundService.NotGiveCard)
+                if (!bot.NotGiveCard)
                 {
-                    idCard = _dealerRoundService.GiveCard();
-                    botRoundService.GetCard(idCard, numberCard);
-                    botRoundService.Score += _cardService.GetScoreCard(idCard);
+                    idCard = _dealer.GiveCard();
+                    score = _cardService.GetScoreCard(idCard);
+                    bot.GetCard(idCard, score, numberCard);
                     Console.Write("{0, 15}", _cardService.GetStringCard(idCard));
                 }
-                if (botRoundService.NotGiveCard)
+                if (bot.NotGiveCard)
                 {
-                    Console.Write("{0, 15}", "----");
-                }
-                
+                    Console.Write("{0, 15}", " ");
+                }                
             }
-            if (!_dealerRoundService.NotGiveCard)
+            if (!_dealer.NotGiveCard)
             {
-                idCard = _dealerRoundService.GetCard(numberCard);
-                _dealerRoundService.Score += _cardService.GetScoreCard(idCard);
+                idCard = _dealer.GiveCard();                
+                score = _cardService.GetScoreCard(idCard);
+                _dealer.GetCard(idCard, score, numberCard);
                 Console.WriteLine("{0, 15}", _cardService.GetStringCard(idCard));
             }
-            if (_dealerRoundService.NotGiveCard)
+            if (_dealer.NotGiveCard)
             {
-                Console.Write("{0, 15}", "----");
-            }
-            
+                Console.WriteLine("{0, 15}", " ");
+            }           
         }
 
         private int CheckIfBlackJack()
         {
             int countPlayersEndGame = 0;
-            if (_dealerRoundService.Score == 21)
+            if (_dealer.Score == 21)
             {
                 countPlayersEndGame = _countPlayers;
-                _dealerRoundService.RoundPlayer.IsWin = true;
-                _playerRoundService.RoundPlayer.IsWin = false;
-                foreach (BotRoundService botRoundService in _botsRoundService)
+                _dealer.RoundPlayer.IsWin = true;
+                _player.RoundPlayer.IsWin = false;
+                foreach (Bot bot in _bots)
                 {
-                    botRoundService.RoundPlayer.IsWin = false;
+                    bot.RoundPlayer.IsWin = false;
                 }
             }
-            if (_playerRoundService.Score == 21)
+            if (_player.Score == 21)
             {
-                _playerRoundService.RoundPlayer.IsWin = true;
-                _playerRoundService.NotGiveCard = true;
+                _player.RoundPlayer.IsWin = true;
+                _player.NotGiveCard = true;
                 countPlayersEndGame++;
             }
-            foreach (BotRoundService botRoundService in _botsRoundService)
+            foreach (Bot bot in _bots)
             {
-                if (botRoundService.Score == 21)
+                if (bot.Score == 21)
                 {
-                    botRoundService.RoundPlayer.IsWin = true;
-                    botRoundService.NotGiveCard = true;
+                    bot.RoundPlayer.IsWin = true;
+                    bot.NotGiveCard = true;
                     countPlayersEndGame++;
                 }
             }
@@ -196,28 +196,28 @@ namespace BlackJack.Pages
         private int CheckIfOver()
         {
             int countPlayersEndGame = 0;
-            if (_dealerRoundService.Score > 21)
+            if (_dealer.Score > 21)
             {
                 countPlayersEndGame = _countPlayers;
-                _dealerRoundService.RoundPlayer.IsWin = false;
-                _playerRoundService.RoundPlayer.IsWin = true;
-                foreach (BotRoundService botRoundService in _botsRoundService)
+                _dealer.RoundPlayer.IsWin = false;
+                _player.RoundPlayer.IsWin = true;
+                foreach (Bot bot in _bots)
                 {
-                    botRoundService.RoundPlayer.IsWin = true;
+                    bot.RoundPlayer.IsWin = true;
                 }
             }
-            if (_playerRoundService.Score > 21)
+            if (_player.Score > 21)
             {
-                _playerRoundService.RoundPlayer.IsWin = false;
-                _playerRoundService.NotGiveCard = true;
+                _player.RoundPlayer.IsWin = false;
+                _player.NotGiveCard = true;
                 countPlayersEndGame++;
             }
-            foreach (BotRoundService botRoundService in _botsRoundService)
+            foreach (Bot bot in _bots)
             {
-                if (botRoundService.Score > 21)
+                if (bot.Score > 21)
                 {
-                    botRoundService.RoundPlayer.IsWin = false;
-                    botRoundService.NotGiveCard = true;
+                    bot.RoundPlayer.IsWin = false;
+                    bot.NotGiveCard = true;
                     countPlayersEndGame++;
                 }
             }
@@ -238,21 +238,26 @@ namespace BlackJack.Pages
         private int TakeAction()
         {
             int countPlayersEndGame = 0;
-            if (!_playerRoundService.NotGiveCard)
+            if (!_player.NotGiveCard)
             {
-                _playerRoundService.NotGiveCard = CheckIfGetCard();
+                _player.NotGiveCard = CheckIfGetCard();
             }            
-            if (_playerRoundService.NotGiveCard)
+            if (_player.NotGiveCard)
             {
                 countPlayersEndGame++;
             }
-            foreach (BotRoundService botRoundService in _botsRoundService)
+            foreach (Bot bot in _bots)
             {
-                botRoundService.TakeAction();
-                if (botRoundService.NotGiveCard)
+                bot.TakeAction();
+                if (bot.NotGiveCard)
                 {
                     countPlayersEndGame++;
                 }
+            }
+            _dealer.TakeAction();
+            if (_dealer.NotGiveCard)
+            {
+                countPlayersEndGame++;
             }
             return countPlayersEndGame;
         }
@@ -260,26 +265,29 @@ namespace BlackJack.Pages
         private void ShowEnd()
         {
             Console.Write("Result :");
-            Console.Write("{0, 15}", _playerRoundService.RoundPlayer.IsWin);
-            foreach (BotRoundService botRoundService in _botsRoundService)
+            Console.Write("{0, 15}", _player.RoundPlayer.IsWin);
+            foreach (Bot bot in _bots)
             {
-                Console.Write("{0, 15}", botRoundService.RoundPlayer.IsWin);
+                Console.Write("{0, 15}", bot.RoundPlayer.IsWin);
             }
-            Console.WriteLine("{0, 15}", _dealerRoundService.RoundPlayer.IsWin);
+            Console.WriteLine();
         }
 
         private void CheckIsWin()
         {
-            int score = _dealerRoundService.Score;
-            if (_playerRoundService.Score > score)
+            int score = _dealer.Score;
+            _dealer.RoundPlayer.IsWin = true;
+            if (_player.Score > score & _player.Score <= 21)
             {
-                _playerRoundService.RoundPlayer.IsWin = true;
+                _player.RoundPlayer.IsWin = true;
+                _dealer.RoundPlayer.IsWin = false;
             }
-            foreach (BotRoundService botRoundService in _botsRoundService)
+            foreach (Bot bot in _bots)
             {
-                if (botRoundService.Score > score)
+                if (bot.Score > score & bot.Score <= 21)
                 {
-                    botRoundService.RoundPlayer.IsWin = true;
+                    bot.RoundPlayer.IsWin = true;
+                    _dealer.RoundPlayer.IsWin = false;
                 }
             }
 
@@ -288,25 +296,28 @@ namespace BlackJack.Pages
         private int NextStep(int numberCard)
         {
             int countPlayersEndGame = TakeAction();
-            NextCard(numberCard++);
-            ShowScores();
+            if (countPlayersEndGame < _countPlayers)
+            {
+                NextCard(numberCard++);
+                ShowScores();
+            }                        
             countPlayersEndGame  += CheckIfOver();
             if (countPlayersEndGame < _countPlayers)
             {
                 NextStep(numberCard);
                 return 0;
             }
-            if (countPlayersEndGame >= _countPlayers)
-            {
-                ShowEnd();
-                return 0;
-            }
-            if ((countPlayersEndGame >= _countPlayers) & _dealerRoundService.Score > 21)
+            if ((countPlayersEndGame >= _countPlayers) & _dealer.Score <= 21)
             {
                 CheckIsWin();
                 ShowEnd();
                 return 0;
             }
+            if (countPlayersEndGame >= _countPlayers)
+            {
+                ShowEnd();
+                return 0;
+            }            
             return 0;
         }
     }

@@ -14,7 +14,7 @@ namespace BlackJack.DAL.Entities
         [Required]
         public string Name { get; set; }
         [Required]
-        public bool IsNotBot { get; set; }
+        public bool IsBot { get; set; }
         
 
         public ICollection<RoundPlayer> RoundPlayers { get; set; }

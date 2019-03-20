@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.Services
+namespace BlackJack.BusinessLogic.Services
 {
     public class Dealer
     {
@@ -14,6 +14,7 @@ namespace BlackJack.Services
         public int Score { get; set; }
         public bool NotGiveCard { get; set; }
 
+        private List<int> _scores;
         private byte _currentCard;
 
         public Dealer()
@@ -21,6 +22,7 @@ namespace BlackJack.Services
             RoundPlayer = new RoundPlayer { PlayerId = 8 };
             RoundPlayer.RoundPlayerCards = new List<RoundPlayerCard>();
             Cards = new List<int>();
+            _scores = new List<int>();
         }
 
         private void AddDeck()
@@ -62,11 +64,29 @@ namespace BlackJack.Services
             }
         }
 
-        public int GetCard(int numberCard)
+        public void GetCard(int cardId, int score, int numberCard)
         {
-            int cardId = GiveCard();
             RoundPlayer.RoundPlayerCards.Add(new RoundPlayerCard { CardId = cardId, NumberCard = numberCard });
-            return cardId;
+            _scores.Add(score);
+            if (_scores.Sum() > 21)
+            {
+                Scoring();
+            }
+            Score = _scores.Sum();
+        }
+
+        private void Scoring()
+        {
+            int index = 0;
+            foreach (int score in _scores)
+            {
+                if (score == 11)
+                {
+                    _scores[index] = 1;
+                    break;
+                }
+                index++;
+            }
         }
 
     }

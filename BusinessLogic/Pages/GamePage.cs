@@ -1,14 +1,14 @@
 ﻿using System;
 using BlackJack.DAL.EF;
 using BlackJack.DAL.Entities;
-using BlackJack.Services;
+using BlackJack.BusinessLogic.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
-namespace BlackJack.Pages
+namespace BlackJack.BusinessLogic.Pages
 {
     class GamePage
     {

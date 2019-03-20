@@ -7,7 +7,7 @@ using BlackJack.DAL.EF;
 using BlackJack.DAL.Repositories;
 using BlackJack.DAL.Entities;
 
-namespace BlackJack.Services
+namespace BlackJack.BusinessLogic.Services
 {
     public class CardService
     {

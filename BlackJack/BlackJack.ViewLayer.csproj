@@ -50,33 +50,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pages\GamePage.cs" />
-    <Compile Include="Pages\PlayerPage.cs" />
-    <Compile Include="Pages\PlayPage.cs" />
+    <Compile Include="Mapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Pages\TotalService.cs" />
-    <Compile Include="Services\BotRoundService.cs" />
-    <Compile Include="Services\CardService.cs" />
-    <Compile Include="Services\DealerRoundService.cs" />
-    <Compile Include="Services\GameService.cs" />
-    <Compile Include="Services\LookGameService.cs" />
-    <Compile Include="Services\PlayerRoundService.cs" />
-    <Compile Include="Services\PlayerService.cs" />
-    <Compile Include="Services\RoundService.cs" />
+    <Compile Include="Steps\GameMenu.cs" />
+    <Compile Include="Steps\PlayerMenu.cs" />
+    <Compile Include="Steps\GamePlay.cs" />
+    <Compile Include="Steps\SetSteps.cs" />
+    <Compile Include="ViewModels\Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlackJack.DAL\BlackJack.DAL.csproj">
-      <Project>{4c790670-6636-4e25-8806-5ebe4b046740}</Project>
-      <Name>BlackJack.DAL</Name>
+    <ProjectReference Include="..\BusinessLogic\BlackJack.BusinessLogic.csproj">
+      <Project>{66DC54E8-794C-40CF-A028-9FB30E9D4E60}</Project>
+      <Name>BlackJack.BusinessLogic</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
