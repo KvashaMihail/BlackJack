@@ -1,40 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BlackJack.Common.Enums;
 using BlackJack.DAL.EF;
-using BlackJack.DAL.Repositories;
 using BlackJack.DAL.Entities;
+using BlackJack.DAL.Repositories;
 
 namespace BlackJack.BusinessLogic.Services
 {
     public class CardService
     {
         private readonly CardRepository _cardRepository;
-
-        public enum Suit {
-            Spade = 0,
-            Club = 1,
-            Diamond = 2,
-            Heart = 3
-        }
-
-        public enum Rank {
-            Deuce = 0,
-            Three = 1,
-            Four = 2,
-            Five = 3,
-            Six = 4,
-            Seven = 5,
-            Eight = 6,
-            Nine = 7,
-            Ten = 8,
-            Jack = 9,
-            Queen = 10,
-            King = 11,
-            Ace = 12
-        };
 
         public CardService(BlackJackContext database)
         {
@@ -52,7 +25,7 @@ namespace BlackJack.BusinessLogic.Services
             {
                 return 10;
             }
-            return 11;
+            return (int)RankScore.Ace;
         }
 
         public string GetStringCard(int idCard)

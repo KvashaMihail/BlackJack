@@ -57,6 +57,10 @@
     <Compile Include="Services\RoundService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BlackJack.Common\BlackJack.Common.csproj">
+      <Project>{4E22AED9-1D01-44AE-A7DC-D5F79C671FD7}</Project>
+      <Name>BlackJack.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BlackJack.DAL\BlackJack.DAL.csproj">
       <Project>{4c790670-6636-4e25-8806-5ebe4b046740}</Project>
       <Name>BlackJack.DAL</Name>
